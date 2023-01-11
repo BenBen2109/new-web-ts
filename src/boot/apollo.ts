@@ -12,7 +12,7 @@ import { app } from '../main';
 import { refreshToken } from '../graphql/auth/index';
 
 // Config URL to call API
-const uri = import.meta.env.VITE_API_URL_GRAPHQL;
+const uri: string = import.meta.env.VITE_API_URL_GRAPHQL;
 
 // Error Handling
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -47,6 +47,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
               accessToken: data?.accessToken,
             });
           })
+          // eslint-disable-next-line no-unused-vars
           .catch(({ error: graphQLErrors }: { error: any }) => {
             if (error) {
               router.push({ name: 'Login' });

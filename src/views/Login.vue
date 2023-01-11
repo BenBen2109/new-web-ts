@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { LocalStorage } from 'quasar';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, type Ref } from 'vue';
 import { query } from '../graphql/auth';
 import { apolloCl, $q } from '../main';
 import { SUCCESS } from '../boot/constant';
-const isPwd = ref(true);
-const email = ref('');
-const password = ref('');
-const loading = ref([false, false, false, false, false, false]);
+const isPwd: Ref<boolean> = ref(true);
+const email: Ref<string> = ref('');
+const password: Ref<string> = ref('');
+const loading: Ref<boolean[]> = ref([false, false, false, false, false, false]);
+const success: Ref<boolean> = ref(false);
 onMounted(() => {
   LocalStorage.set('auth', {
     accessToken: '',
@@ -45,7 +46,7 @@ function onSubmit() {
         grantType: 'password',
       },
     })
-    .then((res) => {
+    .then((res: any) => {
       const { login } = res.data;
       if (login.statusCode === SUCCESS) {
         LocalStorage.set('auth', {
@@ -79,6 +80,7 @@ function onSubmit() {
         });
     });
 }
+// eslint-disable-next-line no-unused-vars
 function simulateProgress(number: any) {
   loading.value[number] = true;
   setTimeout(() => {
